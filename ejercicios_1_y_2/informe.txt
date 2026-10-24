@@ -1,0 +1,20 @@
+1. Palabras que desaparecen
+En el top 10 de la Secuencia A aparecen palabras funcionales como y (4 veces), de (3), que (3), por (2) y el (2). Al pasar a la Secuencia B, ninguna de ellas figura en el ranking.
+
+Esto se debe a que esas palabras están incluidas en el conjunto STOP_WORDS del script, es decir, ka Secuencia B descarta los tokens que cumplen la condición if token not in STOP_WORDS:, lo que significa que deja afuera artículos, preposiciones y conectores que cumplen una función gramatical pero aportan poco significado por sí solos. De esta manera, el ranking se concentra en términos con mayor carga conceptual, como pésame, dios u ofendido.
+
+2. Diferencia entre tokenizar() y .split()
+Sí, el resultado cambia porque tokenizar() produce una separación y limpieza de palabras más precisa que .split(), especialmente cuando hay signos de puntuación pegados a las palabras, como en "pésame,", "texto." o "¿qué?". Como .split() únicamente divide el texto por espacios, considera que "pésame," y "pésame" son tokens distintos; esto genera conteos duplicados e influye en las frecuencias.
+
+En cambio, tokenizar() elimina los signos de puntuación usando string.punctuation y convierte todo a minúsculas con .lower(). Así, "Pésame,", "pésame" y "PÉSAME" terminan contándose como la misma palabra, logrando un conteo más limpio y confiable.
+
+3. Relación entre las líneas completadas
+La línea del Ejercicio 1 y las dos del Ejercicio 2 aplican la misma lógica de conteo: usar frecuencias.get(token, 0) + 1 para acumular cuántas veces aparece cada palabra en un diccionario.
+
+Se repite dos veces en el Ejercicio 2 porque el ejercicio pide construir dos conteos diferentes:
+
+frecuencias_todas: incluye todas las palabras del texto.
+
+frecuencias_sin_stopwords: incluye únicamente las palabras que no fueron filtradas por STOP_WORDS.
+
+Como se trata de dos diccionarios independientes, cada uno necesita su propio bucle y su propia línea de acumulación. La lógica es la misma, pero se aplica sobre conjuntos de palabras distintos para poder comparar ambos resultados.
